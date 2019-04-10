@@ -18,7 +18,6 @@
   <!-- Bootstrap core JavaScript -->
   <script src="resources/vendor/jquery/jquery.min.js"></script>
   <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  
     
   <style>
   .table{
@@ -54,16 +53,16 @@
 			<thead>
 				<tr>
 					<th>이름</th>
-					<td><input type='text' name="name" style="width:100%; border: 0;" placeholder="이름을 입력해주세요"></td>
+					<td><input type='text' name="name" id='name' style="width:100%; border: 0;" placeholder="이름을 입력해주세요"></td>
 				</tr>
 				<tr>
 					<th>제목</th> 
-					<td><input type='text' name="title" style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td>
+					<td><input type='text' name="title" id='title' style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="2" style="height:200px";><textarea name="content" rows="10" id="textarea" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;"></textarea></td>
+					<td colspan="2" style="height:200px";><textarea name="content" id='content' rows="10" id="textarea" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;"></textarea></td>
 				</tr>
 			</tbody>
 		</table>
@@ -82,19 +81,22 @@ write.onclick=function(){
 	var title=document.getElementById("title");
 	var content=document.getElementById("content");
 	
-/* 	if(name.value==""){
+	if(name.value==""){
 		alert("이름을 입력해주세요.");
 		name.focus();
+		return false;
 	}
 	else if(title.value==""){
 		alert("제목을 입력해주세요.");
 		title.focus();
+		return false;
 	}
 	else if(content.value==""){
 		alert("내용을 입력해주세요");
 		content.focus();
+		return false;
 	}
-*/	
+	
 	$("#form").submit();
 }
 

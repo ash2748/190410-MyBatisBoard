@@ -35,91 +35,98 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">테스트게시판</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">테스트</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">테스트</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-<div class="container masthead-content">
-	<table class="table table-bordered text-center">
-		<thead>
-			<tr>
-				<th>이름</th> <th>타이틀</th> <th>조회수</th> <th>작성일자</th>
-			</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${list}" var="list">
-			<tr>
-				<td>${list.name}</td> 
-				<td><a href="contentView?num=${list.num}&page=${pageMaker.cri.page}">${list.title}</a></td> 
-				<td>${list.count}</td> 
-				<td><fmt:formatDate value="${list.write_date}" pattern="yyyy.MM.dd" /></td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-	
-	<a class="btn btn-primary btn-xl" href="writePage" style="padding:10px">글쓰기</a>
-
-	<div class="box-footer">
-	<form action="/intoBoard">
-		<div class="form-group">
-			<select class="form-control" name="searchType" style="width:10%;">
-				<option value="t" <c:out value="${scri.searchType eq 't' ? 't' : ''}"/>>제목</option>
-				<option value="n" <c:out value="${scri.searchType eq 'n' ? 'n' : ''}"/>>이름</option>
-				<option value="c" <c:out value="${scri.searchType eq 'c' ? 'c' : '' }"/>>내용</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<div class="input-group">
-				<input type="text" class="control" name="keyword" id="keyword" value="">
-				<span class="input-group-btn">
-					<button type="submit" class="btn btn-primary btn-flat" id="searchBtn">
-						<i class="fa fa-search"></i>검색
-					</button>
-				</span>
-			</div>
-		</div>
-	</form>
-		<div class="text-center">
-			<ul class="pagination">
-				<c:if test="${pageMaker.prev}">
-					<li><a href="${pageMaker.startPage-1}" class="btn">이전</a></li>
-				</c:if>
-				<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					<li <c:out value="${pageMaker.cri.page == idx ? 'class=active' : '' }"/>>
-						<a href="${idx}" class="btn">${idx}</a>							
-					</li>
-				</c:forEach>
-				<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-					<li><a href="${pageMaker.endPage+1}" class="btn">다음</a></li>
-				</c:if>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">테스트게시판</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="#">테스트</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">테스트</a>
+				</li>
 			</ul>
 		</div>
+		</div>
+	</nav>
+	
+	<!-- board -->
+	<div class="container masthead-content">
+		<!-- board리스트 -->
+		<table class="table table-bordered text-center">
+			<thead>
+				<tr>
+					<th>이름</th> <th>타이틀</th> <th>조회수</th> <th>작성일자</th>
+				</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${list}" var="list">
+				<tr>
+					<td>${list.name}</td> 
+					<td><a href="contentView?num=${list.num}&page=${pageMaker.cri.page}">${list.title}</a></td> 
+					<td>${list.count}</td> 
+					<td><fmt:formatDate value="${list.write_date}" pattern="yyyy.MM.dd" /></td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		<!-- 글쓰기버튼 -->
+		<a class="btn btn-primary btn-xl" href="writePage" style="padding:10px">글쓰기</a>
 		
-		<form id="listPageForm">
-			<input type="hidden" name="page" value="${pageMaker.cri.page}">
-			<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum}">
-		</form>
+		<!-- 검색,페이징 -->
+		<div class="box-footer">
+			<!-- 검색 -->
+			<form action="/intoBoard">
+				<div class="form-group">
+					<select class="form-control" name="searchType" style="width:10%;">
+						<option value="t" <c:out value="${scri.searchType eq 't' ? 't' : ''}"/>>제목</option>
+						<option value="n" <c:out value="${scri.searchType eq 'n' ? 'n' : ''}"/>>이름</option>
+						<option value="c" <c:out value="${scri.searchType eq 'c' ? 'c' : '' }"/>>내용</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" class="control" name="keyword" id="keyword" value="">
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-primary btn-flat" id="searchBtn">
+								<i class="fa fa-search"></i>검색
+							</button>
+						</span>
+					</div>
+				</div>
+			</form>
+			<!-- 페이징 이전버튼 / 페이지번호 / 다음버튼 -->
+			<div class="text-center">
+				<ul class="pagination">
+					<c:if test="${pageMaker.prev}">
+						<li><a href="${pageMaker.startPage-1}" class="btn">이전</a></li>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						<li <c:out value="${pageMaker.cri.page == idx ? 'class=active' : '' }"/>>
+							<a href="${idx}" class="btn">${idx}</a>							
+						</li>
+					</c:forEach>
+					<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+						<li><a href="${pageMaker.endPage+1}" class="btn">다음</a></li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- 현재페이지값, 페이지별글개수 출력 -->
+			<form id="listPageForm">
+				<input type="hidden" name="page" value="${pageMaker.cri.page}">
+				<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum}">
+			</form>
+		</div>
 	</div>
-</div>
 
 <script>
+	//페이징 관련 처리
 	$(".pagination li a").on("click",function(event){
 		event.preventDefault();
 		
@@ -128,11 +135,6 @@
 		listPageForm.find("[name='page']").val(targetPage); //form에서 page의 값에 누른 페이지번호를 넣는다.
 		listPageForm.attr("action","intoBoard").attr("method","get"); //intoBoard(게시판첫페이지)로 이동속성을 넣고, method는 get으로 바꾼다.
 		listPageForm.submit();//전송한다.(페이지번호 누를때마다 변동된 page값이 같이 전송됨)
-	});
-	
-	$("#searchBtn").click(function(){
-		$("[name='searchType']").val();
-		$("[name='keyword']").val();
 	});
 </script>
 </body>

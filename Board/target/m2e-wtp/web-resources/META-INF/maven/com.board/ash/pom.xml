@@ -125,7 +125,7 @@
 		    <scope>test</scope>
 		</dependency>
 		
-		 <!-- mybatis-spring -->
+		<!-- mybatis-spring -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>

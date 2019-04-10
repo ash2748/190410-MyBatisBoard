@@ -48,31 +48,30 @@
     </div>
   </nav>
 
-<div class="container masthead-content">
-	<form id='form' action="modify">
-		<input type="hidden" name="num" value="${view.num}">
-		<table class="table table-bordered text-center">
-			<thead>
-				<tr>
-					<th>이름</th>
-					<td><input type='text' name="name" value="${view.name}" style="width:100%; border: 0;" placeholder="이름을 입력해주세요" autofocus="autofocus"></td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type='text' name="title" value="${view.title}" style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td> 
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan="2" style="height:200px;"><textarea name="content" rows="10" id="textarea" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;">${view.content}</textarea></td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<a href="intoBoard" class="btn btn-primary btn-xl" style="padding:10px">목록</a>
-	<a href="#" id='modify' class="btn btn-primary btn-xl" style="padding:10px">수정완료</a>
-</div>
-
+	<div class="container masthead-content">
+		<form id='form' action="modify">
+			<input type="hidden" name="num" value="${view.num}">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>이름</th>
+						<td><input type='text' name="name" id="name" value="${view.name}" style="width:100%; border: 0;" placeholder="이름을 입력해주세요" autofocus="autofocus"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><input type='text' name="title" id="title" value="${view.title}" style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td> 
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="2" style="height:200px;"><textarea name="content" rows="10" id="content" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;">${view.content}</textarea></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<a href="intoBoard" class="btn btn-primary btn-xl" style="padding:10px">목록</a>
+		<a href="#" id='modify' class="btn btn-primary btn-xl" style="padding:10px">수정완료</a>
+	</div>
 <script>
 
 var modify=document.getElementById("modify");
@@ -82,19 +81,22 @@ modify.onclick=function(){
 	var title=document.getElementById("title");
 	var content=document.getElementById("content");
 	
-/* 	if(name.value==""){
+	if(name.value==""){
 		alert("이름을 입력해주세요.");
 		name.focus();
+		return false;
 	}
 	else if(title.value==""){
 		alert("제목을 입력해주세요.");
 		title.focus();
+		return false;
 	}
 	else if(content.value==""){
 		alert("내용을 입력해주세요");
 		content.focus();
+		return false;
 	}
-*/	
+	
 	$("#form").submit();
 }
 
