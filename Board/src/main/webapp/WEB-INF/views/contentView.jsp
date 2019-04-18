@@ -27,29 +27,18 @@
 th{
 	width:20%;
 }
+
+.replyDelete,.replyModify{
+	background-color:white;
+	color:black;
+}
+
 </style>
 
 </head>
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">테스트게시판</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="#">테스트</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">테스트</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<jsp:include page="sub.jsp" flush="false"/>
 
 	<div class="container masthead-content">
 		<table class="table table-bordered">
@@ -77,11 +66,72 @@ th{
 				</tr>
 			</tbody>
 		</table>
+		
 		<input type="hidden" id='num' value="${view.num}">
 		<input type="hidden" id='page' value="${page.page}">
+		
 		<a href="delete?num=${view.num}" id="delete" class="btn btn-primary btn-xl" style="padding:10px">삭제</a>
 		<a href="modifyPage?num=${view.num}" id="modify" class="btn btn-primary btn-xl" style="padding:10px">수정</a>
 		<a href="intoBoard?page=${page.page}" class="btn btn-primary btn-xl" style="padding:10px">목록</a>
+		
+		<!-- 댓글입력 -->
+		<div class="container" style="margin-top:20px;">
+			<label for="content">Comments</label>
+			<div class="input-group">
+				<input type="text" class="" name="replyName" placeholder="작성자명"">
+				<input type="text" class="form-control" id="content" style="width:30%; height:50%;" name="replyContent" placeholder="댓글을 달아주세요">
+				<span class="input-group-btn"><input type="button" id="replySubmit" class="btn btn-primary btn-xl" style="padding:5px;position: absolute;" value="완료"></span>
+			</div>
+		</div>
+		<!-- 댓글출력 -->
+		<c:forEach items="${reply}" var="reply">
+			<div style="padding:4px;margin-top:20px;">
+				<span id="reply_name"><strong>작성자:</strong> ${reply.reply_name}</span>
+				<span><strong>작성일자:</strong> ${reply.reply_date}</span>
+					
+				<div id="div">
+					<span>${reply.reply_content}</span>
+				</div>
+					
+				<div>
+					<input type="button" id="replyModify" class="btn btn-primary btn-xl replyModify" style="padding:5px;" value="수정">
+					<input type="button" id="replyDelete" class="btn btn-primary btn-xl replyDelete" style="padding:5px;" value="삭제">
+				</div>
+			</div>
+		</c:forEach>
 	</div>
+<script>
+
+$("#replyDelete").on("click",function(){
+	var viewNum = ${view.num}
+	self.location="replyDelete?num="+viewNum
+});
+
+$("#replySubmit").on("click",function(){
+
+	replyName = $("input[name='replyName']").val();
+	replyText = $("input[name='replyContent']").val();
+	num = $("#num").val();
+
+	alert(replyName);
+	alert(replyText);
+	alert(num);
+	
+	$.ajax({
+		type:'post',
+		url:'/reply',
+		data : JSON.stringify({"reply_content":replyText, "reply_name":replyName, "num":num}),
+		dataType:'json',
+		contentType:'application/json;charset=UTF-8',
+		success:function(data){
+			alert("성공");
+			location.reload(); //임시방편(삭제,수정 후 html짜기);			
+		},
+		error:function(data){
+			alert("실패");
+		}
+	});	
+});
+</script>
 </body>
 </html>

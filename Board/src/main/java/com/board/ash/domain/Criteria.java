@@ -3,6 +3,8 @@ package com.board.ash.domain;
 public class Criteria {
 	private int page; //보여줄 페이지
 	private int perPageNum; //페이지당 보여줄 페이지 수
+	private int rowStart; //게시물 보여줄 행개수 첫번째 행
+	private int rowEnd; //게시물 보여줄 행개수 마지막 행
 	
 	public int getPageStart() {
 		return (this.page-1)*this.perPageNum;
@@ -37,4 +39,15 @@ public class Criteria {
 			this.perPageNum = perPageNum;
 		}
 	}
+	
+	public int getRowStart() {
+		rowStart = ((page-1) * perPageNum) + 1;
+		return rowStart;
+	}
+	
+	public int getRowEnd() {
+		rowEnd = rowStart + perPageNum - 1;
+		return rowEnd;
+	}
+	
 }

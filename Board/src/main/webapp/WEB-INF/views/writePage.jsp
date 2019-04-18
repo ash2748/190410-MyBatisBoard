@@ -24,52 +24,34 @@
   	margin-top:150px;
   }
   </style>
-
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">테스트게시판</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">테스트</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">테스트</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-<div class="container masthead-content">
-	<form id='form' action="write">
-		<table class="table table-bordered text-center">
-			<thead>
-				<tr>
-					<th>이름</th>
-					<td><input type='text' name="name" id='name' style="width:100%; border: 0;" placeholder="이름을 입력해주세요"></td>
-				</tr>
-				<tr>
-					<th>제목</th> 
-					<td><input type='text' name="title" id='title' style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan="2" style="height:200px";><textarea name="content" id='content' rows="10" id="textarea" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;"></textarea></td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<a href="intoBoard" class="btn btn-primary btn-xl" style="padding:10px">목록</a>
-	<a href="#" id='write' class="btn btn-primary btn-xl" style="padding:10px">글쓰기</a>
-</div>
+	<!-- Navigation -->
+	<jsp:include page="sub.jsp" flush="false"/>
+	
+	<div class="container masthead-content">
+		<form id='form' action="write">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>이름</th>
+						<td><input type='text' name="name" id='name' style="width:100%; border: 0;" placeholder="이름을 입력해주세요"></td>
+					</tr>
+					<tr>
+						<th>제목</th> 
+						<td><input type='text' name="title" id='title' style="width:100%; border: 0;" placeholder="제목을 입력해주세요"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="2" style="height:200px";><textarea name="content" id='content' rows="10" id="textarea" placeholder="내용을 입력해주세요"  form='form' style="width:100%; border: 0;"></textarea></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<a href="intoBoard" class="btn btn-primary btn-xl" style="padding:10px">목록</a>
+		<a href="#" id='write' class="btn btn-primary btn-xl" style="padding:10px">글쓰기</a>
+	</div>
 
 <script>
 

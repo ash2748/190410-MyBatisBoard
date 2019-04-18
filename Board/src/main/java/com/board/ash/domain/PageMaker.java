@@ -8,9 +8,7 @@ public class PageMaker {
 	private int endPage; //게시글 번호에 따른(보여지는) 페이지의 마지막 번호
 	private boolean prev; //이전버튼을 누를 수 있는 경우/없는 경우 분류를 위함
 	private boolean next;
-	private int startCount;
-	private int endCount;
-	
+
 	private int displayPageNum = 10; //화면에 표시할 페이지 개수 ex)10개
 	private int tempEndPage;
 	
@@ -96,20 +94,4 @@ public class PageMaker {
 		this.tempEndPage = tempEndPage;
 	}
 
-	public int getStartCount() {
-		return startCount;
-	}
-
-	public void setStartCount(int startCount) {
-		this.startCount = startCount;
-	}
-
-	public int getEndCount() {
-		return endCount;
-	}
-
-	public void setEndCount(int endCount) {
-		this.endCount = endCount;
-	}
-	
 }

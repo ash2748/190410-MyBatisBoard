@@ -1,5 +1,6 @@
 package com.board.ash.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -7,14 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.board.ash.domain.BoardDomain;
 import com.board.ash.domain.Criteria;
 import com.board.ash.domain.PageMaker;
+import com.board.ash.domain.ReplyDomain;
 import com.board.ash.domain.SearchCriteria;
 import com.board.ash.service.BoardService;
 
@@ -35,27 +38,29 @@ public class BoardController {
 	@RequestMapping("/intoBoard") 
 	public String intoBoard(Model model, BoardDomain boardDomain, SearchCriteria scri) {
 		
+		//검색후, 검색값만 페이지번호들이 다시 설정됨
 		PageMaker pageMaker = new PageMaker();
 		
 		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(boardService.totalList());
-		pageMaker.setStartCount((scri.getPage()-1)*10+1);
-		pageMaker.setEndCount((scri.getPage()-1)*10+1+pageMaker.getDisplayPageNum());
-	
+		pageMaker.setTotalCount(boardService.totalList(scri));
+
 		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("list", boardService.list(pageMaker,scri));
+		model.addAttribute("list", boardService.list(scri));
 		
 		System.out.println(scri.getKeyword());
 		System.out.println(scri.getSearchType());
+		
 		return "board"; 
 	}
 	//글내용보기
 	@RequestMapping("/contentView")
-	public String contentView(Model model, @RequestParam("num") int num,Criteria cri) {
+	public String contentView(Model model, @RequestParam("num") int num,Criteria cri,ReplyDomain replayDomain) {
 		model.addAttribute("page",cri);
+		//글 리스트 출력
 		model.addAttribute("view", boardService.contentView(num));
-		//타이틀을 누르면, hit메서드 발동.
-		//hit메서드에 num을 넘긴후, hit를 +1업데이트한다.
+		//댓글 리스트 출력
+		model.addAttribute("reply",boardService.replyList(num));
+		
 		return "contentView";
 	}
 	//글쓰기페이지
@@ -88,4 +93,5 @@ public class BoardController {
 		boardService.modify(boardDomain);
 		return "redirect:/contentView?num="+boardDomain.getNum();
 	}
+
 }

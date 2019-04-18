@@ -5,35 +5,57 @@
 <mapper namespace="com.board.ash.dao.BoardDao">
 	<select id="list" resultType="BoardDomain">
 		select *
-        from (select rownum as rnum, B.* from board B order by num desc) A 
-        where A.rnum between #{pm.startCount} and #{pm.endCount} 
-        <include refid="search"/>
+        from (select row_number() over(order by num desc) as rnum, B.* from board B
+       	<trim prefix="WHERE" prefixOverrides="AND">
+        	<include refid="search"/>
+        </trim>
+        ) A 
+        where rnum between #{rowStart} and #{rowEnd} 
+        order by num desc
 	</select>
 	
 	<sql id="search">
-		<if test="sc.searchType!=null">
-			<if test="sc.searchType=='t'.toString()">
-				AND title LIKE '%' || #{sc.keyword} || '%'
+		<if test="searchType!=null">
+			<if test="searchType=='t'.toString()">
+				AND title LIKE '%' || #{keyword} || '%'
 			</if>
-			<if test="sc.searchType=='c'.toString()">
-				AND content LIKE '%' || #{sc.keyword} || '%'
+			<if test="searchType=='c'.toString()">
+				AND content LIKE '%' || #{keyword} || '%'
 			</if>
-			<if test="sc.searchType=='n'.toString()">
-				AND content LIKE '%' || #{sc.keyword} || '%'
+			<if test="searchType=='n'.toString()">
+				AND name LIKE '%' || #{keyword} || '%'
 			</if>
 		</if>
 	</sql>
 	
+	<!--  -->
 	<select id="contentView" resultType="BoardDomain">
-		select * from board 
-		where num=#{num}
+		select
+			*
+		from
+			board 
+		where
+			num=#{num}
 	</select>
 	
 	<insert id="write">
-		insert into board
-		(num,name, title, content, write_date)
+		insert into
+			board
+		(
+			num
+			, name
+			, title
+			, content
+			, write_date
+		)
 		values
-		(num_sq.nextval, #{name}, #{title}, #{content}, sysdate)
+		(
+			num_sq.nextval
+			, #{name}
+			, #{title}
+			, #{content}
+			, sysdate
+		)
 	</insert>
 	
 	<delete id="delete">
@@ -54,5 +76,19 @@
 	
 	<select id='totalList' resultType="int">
 		select count(num) from board
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<include refid="search"></include>
+		</trim>
 	</select>
+	
+	<select id="replyList" resultType="ReplyDomain">
+		select * from reply where num=#{num}
+	</select>
+	
+	<insert id="writeReply">
+		insert into reply 
+		values(sq_reply.nextval, #{reply_name}, #{reply_content}, #{num}, sysdate)
+	</insert>
+	
+	
 </mapper>

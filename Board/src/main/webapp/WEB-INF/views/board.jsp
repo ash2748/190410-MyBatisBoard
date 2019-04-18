@@ -36,29 +36,11 @@
 </head>
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">테스트게시판</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-		
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="#">테스트</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">테스트</a>
-				</li>
-			</ul>
-		</div>
-		</div>
-	</nav>
+	<jsp:include page="sub.jsp" flush="false"/>
 	
 	<!-- board -->
 	<div class="container masthead-content">
-		<!-- board리스트 -->
+		<!-- board 리스트 출력 부분 -->
 		<table class="table table-bordered text-center">
 			<thead>
 				<tr>
@@ -81,27 +63,27 @@
 		
 		<!-- 검색,페이징 -->
 		<div class="box-footer">
-			<!-- 검색 -->
-			<form action="/intoBoard">
-				<div class="form-group">
-					<select class="form-control" name="searchType" style="width:10%;">
-						<option value="t" <c:out value="${scri.searchType eq 't' ? 't' : ''}"/>>제목</option>
-						<option value="n" <c:out value="${scri.searchType eq 'n' ? 'n' : ''}"/>>이름</option>
-						<option value="c" <c:out value="${scri.searchType eq 'c' ? 'c' : '' }"/>>내용</option>
-					</select>
+		
+			<!-- 1)검색 -->
+			<div class="form-group">
+				<select class="form-control" name="searchType" style="width:10%;">
+					<option value="t" <c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
+					<option value="n" <c:out value="${scri.searchType eq 'n' ? 'selected' : ''}"/>>이름</option>
+					<option value="c" <c:out value="${scri.searchType eq 'c' ? 'selected' : '' }"/>>내용</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+					<input type="text" class="control" name="keyword" id="keyword" value="${scri.keyword}">
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-primary btn-flat" id="searchBtn">
+							<i class="fa fa-search"></i>검색
+						</button>
+					</span>
 				</div>
-				<div class="form-group">
-					<div class="input-group">
-						<input type="text" class="control" name="keyword" id="keyword" value="">
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-primary btn-flat" id="searchBtn">
-								<i class="fa fa-search"></i>검색
-							</button>
-						</span>
-					</div>
-				</div>
-			</form>
-			<!-- 페이징 이전버튼 / 페이지번호 / 다음버튼 -->
+			</div>
+			
+			<!-- 2)페이징 이전버튼 / 페이지번호 / 다음버튼 -->
 			<div class="text-center">
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
@@ -117,7 +99,8 @@
 					</c:if>
 				</ul>
 			</div>
-			<!-- 현재페이지값, 페이지별글개수 출력 -->
+			
+			<!-- 3)현재페이지값, 페이지별글개수 출력 -->
 			<form id="listPageForm">
 				<input type="hidden" name="page" value="${pageMaker.cri.page}">
 				<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum}">
@@ -132,10 +115,24 @@
 		
 		var targetPage = $(this).attr("href"); //페이지 번호 누르면, 누른 번호를 담는다.
 		var listPageForm = $("#listPageForm"); //page,perPageNum을 담아둔 form을 가져온다.
+		
 		listPageForm.find("[name='page']").val(targetPage); //form에서 page의 값에 누른 페이지번호를 넣는다.
 		listPageForm.attr("action","intoBoard").attr("method","get"); //intoBoard(게시판첫페이지)로 이동속성을 넣고, method는 get으로 바꾼다.
 		listPageForm.submit();//전송한다.(페이지번호 누를때마다 변동된 page값이 같이 전송됨)
 	});
+	
+	//검색관련처리
+	$("#searchBtn").click(function(){
+		alert($('select[name="searchType"]').val());
+		alert($("#keyword").val());
+		
+		self.location="intoBoard?page=1&searchType="
+						+$("select option:selected").val()
+						+"&keyword="
+						+encodeURIComponent($('#keyword').val());
+	});
+	
+	
 </script>
 </body>
 </html>
