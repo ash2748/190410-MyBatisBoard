@@ -104,6 +104,8 @@
 			<form id="listPageForm">
 				<input type="hidden" name="page" value="${pageMaker.cri.page}">
 				<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum}">
+				<input type="hidden" name="searchType" value="${scri.searchType}">
+				<input type="hidden" name="keyword" value="${scri.keyword}">
 			</form>
 		</div>
 	</div>
@@ -117,21 +119,19 @@
 		var listPageForm = $("#listPageForm"); //page,perPageNum을 담아둔 form을 가져온다.
 		
 		listPageForm.find("[name='page']").val(targetPage); //form에서 page의 값에 누른 페이지번호를 넣는다.
+		
 		listPageForm.attr("action","intoBoard").attr("method","get"); //intoBoard(게시판첫페이지)로 이동속성을 넣고, method는 get으로 바꾼다.
 		listPageForm.submit();//전송한다.(페이지번호 누를때마다 변동된 page값이 같이 전송됨)
 	});
 	
 	//검색관련처리
 	$("#searchBtn").click(function(){
-		alert($('select[name="searchType"]').val());
-		alert($("#keyword").val());
 		
 		self.location="intoBoard?page=1&searchType="
 						+$("select option:selected").val()
 						+"&keyword="
 						+encodeURIComponent($('#keyword').val());
 	});
-	
 	
 </script>
 </body>

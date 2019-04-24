@@ -46,12 +46,14 @@ public class BoardController {
 
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("list", boardService.list(scri));
+		model.addAttribute("scri",scri);
 		
-		System.out.println(scri.getKeyword());
-		System.out.println(scri.getSearchType());
+		System.out.println("키워드:"+scri.getKeyword());
+		System.out.println("써치타입:"+scri.getSearchType());
 		
 		return "board"; 
 	}
+	
 	//글내용보기
 	@RequestMapping("/contentView")
 	public String contentView(Model model, @RequestParam("num") int num,Criteria cri,ReplyDomain replayDomain) {
@@ -63,17 +65,20 @@ public class BoardController {
 		
 		return "contentView";
 	}
+	
 	//글쓰기페이지
 	@RequestMapping("/writePage")
 	public String writePage(Model model, Locale locale){
 		return "writePage";
 	}
+	
 	//글쓰기
 	@RequestMapping("/write")
 	public String write(BoardDomain boardDomain) {
 		boardService.write(boardDomain);
 		return "redirect:/intoBoard";
 	}
+	
 	//삭제
 	@RequestMapping("/delete")
 	public String delete(Model model, @RequestParam int num) {
@@ -81,12 +86,14 @@ public class BoardController {
 		System.out.println("넘버:"+num);
 		return "redirect:/intoBoard";
 	}
+	
 	//수정페이지
 	@RequestMapping("/modifyPage")
 	public String modifyPage(Model model, @RequestParam int num) {
 		model.addAttribute("view", boardService.contentView(num));
 		return "modifyPage";
 	}
+	
 	//수정
 	@RequestMapping("/modify")
 	public String modify(BoardDomain boardDomain) {
